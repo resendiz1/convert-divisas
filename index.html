@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="es-MX" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Divisa — Conversor de monedas MXN, USD, EUR y más | Tipo de cambio hoy</title>
+  <meta name="description" content="Convierte pesos mexicanos, dólares, euros, libras y yenes con tipos de cambio actualizados. Calcula comisiones, consulta el histórico y compara proveedores.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" id="themeColorMeta" content="#0B0D0E">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:site_name" content="Divisa">
+  <meta property="og:title" content="Divisa — Conversor de monedas con tipo de cambio actualizado">
+  <meta property="og:description" content="30 divisas, comisiones transparentes, histórico del tipo de cambio y comparador de proveedores. Gratis y sin registro.">
+  <meta property="og:image" content="assets/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Divisa — Conversor de monedas">
+  <meta name="twitter:description" content="Convierte 30 divisas, calcula comisiones y consulta el histórico del tipo de cambio.">
+  <meta name="twitter:image" content="assets/og-image.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('divisa:theme');
+        var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var theme = stored || (prefersLight ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        var meta = document.getElementById('themeColorMeta');
+        if (meta) meta.setAttribute('content', theme === 'light' ? '#FAF7EF' : '#0B0D0E');
+      } catch (e) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="brand" href="#top" aria-label="Divisa, inicio">
+        <svg class="logo-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="3.5"/>
+          <path d="M21 27.5h18l-4.5-5M43 36.5H25l4.5 5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="32" r="3" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name"><span class="lt">&lt;</span>Divisa<span class="rt">/&gt;</span></span>
+          <span class="brand-sub">Conversor de monedas</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#conversor">Conversor</a>
+        <a href="#costos">Costos</a>
+        <a href="#historico">Histórico</a>
+        <a href="#comparar">Comparar</a>
+        <a href="#viaje">Viaje</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar a modo claro" aria-pressed="true" title="Cambiar tema">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/>
+          </svg>
+        </button>
+        <a class="btn btn-gold btn-sm nav-cta" href="#conversor">Convertir</a>
+        <button class="nav-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="offcanvas offcanvas-end app-offcanvas" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title" id="mobileMenuLabel"><span class="lt">&lt;</span>Divisa<span class="rt">/&gt;</span></h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+    <div class="offcanvas-body">
+      <nav class="mobile-nav" aria-label="Menú móvil">
+        <a href="#conversor" data-bs-dismiss="offcanvas">Conversor</a>
+        <a href="#equivalencias" data-bs-dismiss="offcanvas">Equivalencias</a>
+        <a href="#costos" data-bs-dismiss="offcanvas">Costos y comisiones</a>
+        <a href="#historico" data-bs-dismiss="offcanvas">Histórico</a>
+        <a href="#comparar" data-bs-dismiss="offcanvas">Comparador</a>
+        <a href="#viaje" data-bs-dismiss="offcanvas">Viaje y compras</a>
+        <a href="#historial" data-bs-dismiss="offcanvas">Historial</a>
+        <a href="#populares" data-bs-dismiss="offcanvas">Conversiones populares</a>
+        <a href="#faq" data-bs-dismiss="offcanvas">Preguntas frecuentes</a>
+      </nav>
+      <p class="mobile-note">Tipos de referencia actualizados. Sin cuentas ni registro.</p>
+      <a class="btn btn-gold w-100" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Ver fuente de datos</a>
+    </div>
+  </div>
+
+  <main id="contenido">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="kicker kicker-live"><span class="lamp lamp-lit" aria-hidden="true"></span><span id="marketStatus">Mercado abierto</span> · tipos de referencia</p>
+          <h1>Tu dinero, <span class="hl">en todas</span><br>las divisas.</h1>
+          <p class="lede">Convierte entre 30 monedas con tipos actualizados, comisiones transparentes e histórico de mercado. Sin cuentas, sin backend.</p>
+          <div class="hero-cta">
+            <a class="btn btn-gold btn-lg" href="#conversor">Convertir ahora</a>
+            <a class="btn btn-ghost btn-lg" href="#historico">Ver histórico</a>
+          </div>
+          <ul class="hero-meta" aria-label="Características principales">
+            <li><span class="lamp" aria-hidden="true"></span>30 divisas</li>
+            <li><span class="lamp" aria-hidden="true"></span>Histórico del BCE</li>
+            <li><span class="lamp" aria-hidden="true"></span>Funciona sin conexión</li>
+          </ul>
+        </div>
+
+        <article class="converter-card" id="conversor" aria-labelledby="converterTitle">
+          <div class="converter-grid-bg" aria-hidden="true"></div>
+          <div class="converter-head">
+            <div>
+              <p class="panel-label">Conversor</p>
+              <h2 class="converter-title" id="converterTitle">Cambia divisas al instante</h2>
+            </div>
+            <span class="status-pill" id="converterStatus"><span class="lamp lamp-lit" aria-hidden="true"></span>En línea</span>
+          </div>
+
+          <form id="converterForm" novalidate>
+            <div class="amount-field">
+              <label for="amountInput">Cantidad</label>
+              <div class="amount-input-wrap">
+                <span class="amount-symbol" id="amountSymbol" aria-hidden="true">$</span>
+                <input id="amountInput" name="amount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="100" aria-describedby="amountHint amountError">
+                <span class="amount-code" id="amountCode">MXN</span>
+              </div>
+              <p class="field-hint" id="amountHint">Acepta comas o puntos decimales. Ej. 1,234.56 o 1.234,56.</p>
+              <p class="field-error" id="amountError" role="alert" hidden></p>
+            </div>
+
+            <div class="currency-row">
+              <div class="currency-field">
+                <label for="fromSelect">De</label>
+                <select id="fromSelect" class="form-select" aria-label="Moneda de origen"></select>
+              </div>
+              <button id="swapBtn" class="swap-btn" type="button" aria-label="Intercambiar monedas de origen y destino" title="Intercambiar monedas">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 4v13M7 17l-3-3M7 17l3-3M17 20V7M17 7l-3 3M17 7l3 3"/>
+                </svg>
+              </button>
+              <div class="currency-field">
+                <label for="toSelect">A</label>
+                <select id="toSelect" class="form-select" aria-label="Moneda de destino"></select>
+              </div>
+            </div>
+
+            <div class="result-panel">
+              <div class="result-top">
+                <span class="result-label">Recibes</span>
+                <span class="result-code" id="resultCode">USD</span>
+              </div>
+              <div class="result-value" id="resultValue" aria-live="polite" aria-atomic="true">—</div>
+              <div class="result-name" id="resultName">Dólar estadounidense</div>
+              <div class="rate-lines">
+                <p id="rateLine">1 MXN = — USD</p>
+                <p id="inverseLine">1 USD = — MXN</p>
+              </div>
+              <p class="result-fee" id="feeNetLine" hidden></p>
+            </div>
+
+            <details class="fee-details" id="feeDetails">
+              <summary>
+                <span>Comisión y costo</span>
+                <span class="fee-badge" id="feeStateBadge">Desactivada</span>
+              </summary>
+              <div class="fee-controls">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="feeEnabled">
+                  <label class="form-check-label" for="feeEnabled">Aplicar comisión</label>
+                </div>
+                <div class="fee-inputs">
+                  <div class="field-mini">
+                    <label for="feePercent">Comisión %</label>
+                    <input id="feePercent" class="form-control" type="number" min="0" max="100" step="0.1" value="1.5" inputmode="decimal">
+                  </div>
+                  <div class="field-mini">
+                    <label for="feeFixed">Cargo fijo <span id="feeFixedSymbol">$</span></label>
+                    <input id="feeFixed" class="form-control" type="number" min="0" step="0.01" value="0" inputmode="decimal">
+                  </div>
+                </div>
+                <p class="field-hint">La comisión se descuenta del monto de origen antes de convertir.</p>
+              </div>
+            </details>
+
+            <div class="converter-actions">
+              <button class="btn btn-ghost btn-sm action-btn" id="copyBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                Copiar
+              </button>
+              <button class="btn btn-ghost btn-sm action-btn" id="shareBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg>
+                Compartir
+              </button>
+              <button class="btn btn-ghost btn-sm action-btn favorite-btn" id="favoriteBtn" type="button" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>
+                <span id="favoriteLabel">Favorito</span>
+              </button>
+            </div>
+
+            <div class="quick-amounts" role="group" aria-label="Cantidades rápidas">
+              <span class="quick-label">Rápido</span>
+              <button class="quick-chip" type="button" data-amount="10">10</button>
+              <button class="quick-chip" type="button" data-amount="50">50</button>
+              <button class="quick-chip" type="button" data-amount="100">100</button>
+              <button class="quick-chip" type="button" data-amount="500">500</button>
+              <button class="quick-chip" type="button" data-amount="1000">1,000</button>
+            </div>
+          </form>
+
+          <div class="converter-footer">
+            <div class="rate-meta">
+              <span class="meta-item"><span class="meta-label">Actualizado</span><span id="rateUpdated">—</span></span>
+              <span class="meta-item"><span class="meta-label">Fuente</span><a id="rateSource" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">ExchangeRate-API</a></span>
+              <span class="meta-item meta-age" id="rateAge"></span>
+            </div>
+            <div class="footer-actions">
+              <span class="offline-badge" id="offlineBadge" hidden><span class="lamp" aria-hidden="true"></span>Sin conexión</span>
+              <button class="refresh-btn" id="refreshBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></svg>
+                <span>Actualizar</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="alert app-alert" id="apiAlert" role="alert" hidden>
+            <div class="alert-copy">
+              <strong id="apiAlertTitle">No se pudieron actualizar los tipos</strong>
+              <p id="apiAlertText">Estamos usando los últimos datos disponibles.</p>
+            </div>
+            <button class="alert-retry" id="apiAlertRetry" type="button">Reintentar</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track" id="tickerTrack">
+          <div class="ticker-group" id="tickerGroup">
+            <span>USD/MXN <b>—</b></span><i></i>
+            <span>EUR/MXN <b>—</b></span><i></i>
+            <span>GBP/MXN <b>—</b></span><i></i>
+            <span>MXN/USD <b>—</b></span><i></i>
+            <span>USD/EUR <b>—</b></span><i></i>
+            <span>EUR/GBP <b>—</b></span><i></i>
+            <span>JPY/MXN <b>—</b></span><i></i>
+            <span>CAD/MXN <b>—</b></span><i></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="equivalencias">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Equivalencias</p>
+          <h2>Cantidades frecuentes, sin calculadora.</h2>
+          <p class="sec-lede">Consulta cuánto equivale tu par de divisas en los montos que más se usan y guarda tus combinaciones favoritas.</p>
+        </header>
+
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-4">
+            <div class="panel-card h-100">
+              <div class="panel-card-head">
+                <h3>Tus favoritos</h3>
+                <span class="mono-tag" id="favoritesCount">0 pares</span>
+              </div>
+              <p class="panel-text">Marca un par con la estrella del conversor para tenerlo a un clic.</p>
+              <div class="favorites-list" id="favoritesList"></div>
+              <p class="empty-note" id="favoritesEmpty">Aún no tienes favoritos.</p>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="panel-card h-100">
+              <div class="panel-card-head">
+                <h3>Tabla de equivalencias</h3>
+                <span class="mono-tag" id="equivalencePairLabel">MXN → USD</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table app-table align-middle">
+                  <caption class="visually-hidden">Equivalencias para el par de monedas seleccionado</caption>
+                  <thead>
+                    <tr><th scope="col">Cantidad</th><th scope="col">Equivale a</th><th scope="col">Tasa aplicada</th></tr>
+                  </thead>
+                  <tbody id="equivalenceBody"></tbody>
+                </table>
+              </div>
+              <div class="table-footer">
+                <span id="equivalenceRate">—</span>
+                <button class="link-btn" type="button" id="invertPairBtn">Ver par inverso</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="costos">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Costos reales</p>
+          <h2>Lo que recibes no siempre es la tasa que ves.</h2>
+          <p class="sec-lede">Desglosa la comisión de tu conversión y compárala con la tasa que aplicaría un proveedor. Todos los supuestos son editables.</p>
+        </header>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="panel-card h-100">
+              <div class="panel-card-head">
+                <h3>Desglose de tu comisión</h3>
+                <span class="mono-tag" id="feePairLabel">MXN → USD</span>
+              </div>
+              <p class="panel-text">Se calcula con la cantidad y el par del conversor. Ajusta el porcentaje o el cargo fijo desde el panel de conversión.</p>
+              <dl class="breakdown">
+                <div><dt>Monto de origen</dt><dd id="feeBaseAmount">—</dd></div>
+                <div><dt>Conversión bruta</dt><dd id="feeGross">—</dd></div>
+                <div><dt>Comisión estimada</dt><dd id="feeTotalCost">—</dd></div>
+                <div class="strong"><dt>Monto neto</dt><dd id="feeNet">—</dd></div>
+                <div><dt>Tasa efectiva</dt><dd id="feeEffRate">—</dd></div>
+              </dl>
+              <div class="panel-actions">
+                <button class="btn btn-ghost btn-sm" type="button" id="feeEditBtn">Editar comisión</button>
+                <span class="mini-note">La comisión se descuenta del monto de origen.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="panel-card h-100">
+              <div class="panel-card-head">
+                <h3>Referencia vs proveedor</h3>
+                <span class="mono-tag" id="providerPairLabel">MXN → USD</span>
+              </div>
+              <p class="panel-text">Compara la tasa de referencia con la de un banco, casa de cambio o tarjeta. Los presets son ejemplos, no tarifas reales.</p>
+              <div class="preset-row" id="providerPresets" role="group" aria-label="Presets de proveedor">
+                <button class="preset-btn" type="button" data-preset="banco">Banco</button>
+                <button class="preset-btn" type="button" data-preset="casa">Casa de cambio</button>
+                <button class="preset-btn" type="button" data-preset="tarjeta">Tarjeta</button>
+                <button class="preset-btn" type="button" data-preset="remesadora">Remesadora</button>
+              </div>
+              <div class="form-grid-2 mt-3">
+                <div class="field-mini">
+                  <label for="providerName">Proveedor</label>
+                  <input id="providerName" class="form-control" type="text" value="Banco" maxlength="40">
+                </div>
+                <div class="field-mini">
+                  <label for="providerRate">Tasa del proveedor <span class="label-opt">(opcional)</span></label>
+                  <input id="providerRate" class="form-control" type="number" min="0" step="0.000001" placeholder="Usar referencia + margen" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="providerSpread">Margen / spread %</label>
+                  <input id="providerSpread" class="form-control" type="number" min="0" max="100" step="0.1" value="1.5" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="providerCommission">Comisión %</label>
+                  <input id="providerCommission" class="form-control" type="number" min="0" max="100" step="0.1" value="2.5" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="providerFixed">Cargo fijo <span id="providerFixedSymbol">$</span></label>
+                  <input id="providerFixed" class="form-control" type="number" min="0" step="0.01" value="0" inputmode="decimal">
+                </div>
+                <div class="field-mini provider-hint-wrap">
+                  <span class="field-hint" id="providerHint">Si capturas una tasa, el margen se ignora.</span>
+                </div>
+              </div>
+              <dl class="breakdown breakdown-tight">
+                <div><dt>Tasa de referencia</dt><dd id="providerRefRate">—</dd></div>
+                <div><dt>Tasa aplicada</dt><dd id="providerEffRate">—</dd></div>
+                <div><dt>Referencia sin comisión</dt><dd id="providerRefAmount">—</dd></div>
+                <div class="strong"><dt>Recibes con proveedor</dt><dd id="providerAmount">—</dd></div>
+                <div><dt>Diferencia vs referencia</dt><dd id="providerDiff">—</dd></div>
+                <div><dt>Costo total estimado</dt><dd id="providerCost">—</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <p class="section-note"><span class="lamp" aria-hidden="true"></span>Los tipos de cambio son de referencia y pueden diferir de los aplicados por bancos, casas de cambio y tarjetas.</p>
+      </div>
+    </section>
+
+    <section class="section" id="historico">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Histórico</p>
+          <h2>La evolución del tipo de cambio.</h2>
+          <p class="sec-lede">Consulta la tendencia del par activo en los últimos 7, 30, 90 o 365 días, con datos de referencia del Banco Central Europeo.</p>
+        </header>
+
+        <div class="panel-card chart-card">
+          <div class="chart-head">
+            <div>
+              <p class="panel-label">Par seleccionado</p>
+              <h3 class="chart-pair" id="chartPairLabel">MXN → USD</h3>
+              <p class="chart-rate" id="chartRateLabel">1 MXN = — USD</p>
+            </div>
+            <div class="period-row" role="group" aria-label="Periodo histórico">
+              <button class="period-btn" type="button" data-days="7">7 días</button>
+              <button class="period-btn is-active" type="button" data-days="30">30 días</button>
+              <button class="period-btn" type="button" data-days="90">90 días</button>
+              <button class="period-btn" type="button" data-days="365">1 año</button>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <canvas id="rateChart" height="320" aria-label="Gráfico de evolución del tipo de cambio" role="img"></canvas>
+            <div class="chart-overlay" id="chartLoading" hidden><span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span>Consultando histórico…</span></div>
+            <div class="chart-empty" id="chartEmpty" hidden>
+              <p class="chart-empty-title" id="chartEmptyTitle">Sin datos históricos</p>
+              <p class="chart-empty-text" id="chartEmptyText">No hay información disponible para este par.</p>
+            </div>
+          </div>
+
+          <div class="chart-stats" aria-label="Estadísticas del periodo">
+            <div class="stat"><span class="stat-label">Mínimo</span><strong id="chartMin">—</strong></div>
+            <div class="stat"><span class="stat-label">Máximo</span><strong id="chartMax">—</strong></div>
+            <div class="stat"><span class="stat-label">Promedio</span><strong id="chartAvg">—</strong></div>
+            <div class="stat"><span class="stat-label">Variación</span><strong id="chartChange">—</strong></div>
+          </div>
+
+          <div class="chart-footer">
+            <span class="mini-note" id="chartSource">Fuente: Frankfurter · BCE · Datos de referencia</span>
+            <span class="mini-note" id="chartUpdated">—</span>
+          </div>
+
+          <details class="chart-data">
+            <summary>Ver datos del periodo</summary>
+            <div class="table-responsive">
+              <table class="table app-table app-table-sm">
+                <caption class="visually-hidden">Datos históricos del tipo de cambio</caption>
+                <thead><tr><th scope="col">Fecha</th><th scope="col">Tasa</th></tr></thead>
+                <tbody id="chartTableBody"></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="comparar">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Comparador</p>
+          <h2>Una cantidad, todas las divisas.</h2>
+          <p class="sec-lede">Convierte un monto base a varias monedas al mismo tiempo. Haz clic en una moneda para usarla como destino en el conversor.</p>
+        </header>
+
+        <div class="panel-card">
+          <div class="compare-toolbar">
+            <div class="field-mini">
+              <label for="compareAmount">Cantidad base</label>
+              <input id="compareAmount" class="form-control" type="text" inputmode="decimal" value="1,000" autocomplete="off">
+            </div>
+            <div class="field-mini">
+              <label for="compareBase">Moneda base</label>
+              <select id="compareBase" class="form-select"></select>
+            </div>
+            <div class="field-mini grow">
+              <label for="compareSearch">Buscar moneda</label>
+              <input id="compareSearch" class="form-control" type="search" placeholder="Código o nombre…" autocomplete="off">
+            </div>
+            <div class="toolbar-switch">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="compareFavOnly">
+                <label class="form-check-label" for="compareFavOnly">Solo favoritos</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table app-table app-table-compare align-middle">
+              <caption class="visually-hidden">Comparación de una cantidad entre varias monedas</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Moneda</th>
+                  <th scope="col">1 base =</th>
+                  <th scope="col" class="text-end">Equivale a</th>
+                  <th scope="col" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="compareBody"></tbody>
+            </table>
+          </div>
+          <p class="empty-note" id="compareEmpty" hidden>No hay monedas que coincidan con la búsqueda.</p>
+          <div class="table-footer">
+            <span class="mini-note" id="compareCount">—</span>
+            <button class="link-btn" type="button" id="compareToggle">Ver todas las monedas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="viaje">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Viaje y compras</p>
+          <h2>Presupuesta el viaje. Calcula la compra.</h2>
+          <p class="sec-lede">Herramientas rápidas para planear gastos en el extranjero y estimar el precio final de productos de tiendas internacionales.</p>
+        </header>
+
+        <div class="panel-card">
+          <ul class="nav nav-pills app-tabs" id="toolsTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="budget-tab" data-bs-toggle="pill" data-bs-target="#budget-pane" type="button" role="tab" aria-controls="budget-pane" aria-selected="true">Presupuesto de viaje</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="product-tab" data-bs-toggle="pill" data-bs-target="#product-pane" type="button" role="tab" aria-controls="product-pane" aria-selected="false">Precio de producto</button>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="toolsTabContent">
+            <div class="tab-pane fade show active" id="budget-pane" role="tabpanel" aria-labelledby="budget-tab" tabindex="0">
+              <div class="pane-head">
+                <div>
+                  <h3>Presupuesto por categorías</h3>
+                  <p class="panel-text">Captura los montos en la moneda de destino. Se convierten con el par activo del conversor.</p>
+                </div>
+                <span class="mono-tag" id="budgetPairLabel">MXN → USD</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table app-table budget-table align-middle">
+                  <caption class="visually-hidden">Presupuesto de viaje por categorías</caption>
+                  <thead>
+                    <tr><th scope="col">Categoría</th><th scope="col">Importe <span id="budgetForeignLabel">USD</span></th><th scope="col" class="text-end">Equivale <span id="budgetLocalLabel">MXN</span></th><th scope="col" class="text-end"><span class="visually-hidden">Acciones</span></th></tr>
+                  </thead>
+                  <tbody id="budgetBody"></tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row">Total</th>
+                      <td id="budgetTotalForeign">—</td>
+                      <td class="text-end" id="budgetTotalLocal">—</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="panel-actions">
+                <button class="btn btn-ghost btn-sm" type="button" id="budgetAdd">Agregar categoría</button>
+                <button class="link-btn" type="button" id="budgetReset">Restablecer ejemplo</button>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="product-pane" role="tabpanel" aria-labelledby="product-tab" tabindex="0">
+              <div class="pane-head">
+                <div>
+                  <h3>Precio final de una compra internacional</h3>
+                  <p class="panel-text">El precio y el envío se capturan en la moneda extranjera; el total se muestra en tu moneda local.</p>
+                </div>
+                <span class="mono-tag" id="productPairLabel">MXN → USD</span>
+              </div>
+              <div class="form-grid-2">
+                <div class="field-mini">
+                  <label for="productPrice">Precio del producto (<span id="productPriceLabel">USD</span>)</label>
+                  <input id="productPrice" class="form-control" type="number" min="0" step="0.01" value="99" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="productShipping">Envío (<span id="productShippingLabel">USD</span>)</label>
+                  <input id="productShipping" class="form-control" type="number" min="0" step="0.01" value="12" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="productTax">Impuesto de importación %</label>
+                  <input id="productTax" class="form-control" type="number" min="0" max="100" step="0.1" value="16" inputmode="decimal">
+                </div>
+                <div class="field-mini">
+                  <label for="productFees">Comisiones y otros %</label>
+                  <input id="productFees" class="form-control" type="number" min="0" max="100" step="0.1" value="3" inputmode="decimal">
+                </div>
+              </div>
+              <p class="field-error" id="productError" role="alert" hidden></p>
+              <dl class="breakdown breakdown-tight mt-3">
+                <div><dt>Producto</dt><dd id="productSubtotal">—</dd></div>
+                <div><dt>Envío</dt><dd id="productShippingLocal">—</dd></div>
+                <div><dt>Impuesto de importación</dt><dd id="productTaxLocal">—</dd></div>
+                <div><dt>Comisiones</dt><dd id="productFeesLocal">—</dd></div>
+                <div><dt>Total en moneda extranjera</dt><dd id="productTotalForeign">—</dd></div>
+                <div class="strong"><dt>Total en moneda local</dt><dd id="productTotalLocal">—</dd></div>
+                <div><dt>Tasa aplicada</dt><dd id="productRate">—</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-band" id="historial">
+      <div class="container">
+        <header class="sec-head sec-head-row">
+          <div>
+            <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Historial</p>
+            <h2>Conversiones de esta sesión.</h2>
+            <p class="sec-lede">Se guardan temporalmente en tu navegador. Puedes restaurar una conversión o limpiar la lista cuando quieras.</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" type="button" id="historyClear">Limpiar historial</button>
+        </header>
+
+        <div class="panel-card">
+          <div class="panel-card-head">
+            <h3>Últimas conversiones</h3>
+            <span class="mono-tag" id="historyCount">0 registros</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table app-table align-middle">
+              <caption class="visually-hidden">Historial temporal de conversiones</caption>
+              <thead><tr><th scope="col">Hora</th><th scope="col">Conversión</th><th scope="col" class="text-end">Resultado</th><th scope="col" class="text-end">Acciones</th></tr></thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+          </div>
+          <p class="empty-note" id="historyEmpty">Todavía no hay conversiones registradas en esta sesión.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="populares">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Conversiones populares</p>
+          <h2>Los pares que más se consultan.</h2>
+          <p class="sec-lede">Tipos de cambio de referencia para las conversiones más buscadas entre pesos mexicanos, dólares, euros, libras y yenes.</p>
+        </header>
+
+        <div class="pair-grid">
+          <article class="pair-card" id="mxn-a-usd" data-from="MXN" data-to="USD">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇲🇽 → 🇺🇸</span><span class="mono-tag">MXN → USD</span></div>
+            <h3>Convertir pesos mexicanos a dólares</h3>
+            <p>El tipo de cambio MXN/USD indica cuántos dólares se obtienen por cada peso mexicano. Es uno de los pares más consultados por viajeros, compradores en línea y personas que reciben pagos internacionales.</p>
+            <p class="pair-rate js-pair-rate">1 MXN = — USD</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir MXN a USD</button>
+          </article>
+
+          <article class="pair-card" id="usd-a-mxn" data-from="USD" data-to="MXN">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇺🇸 → 🇲🇽</span><span class="mono-tag">USD → MXN</span></div>
+            <h3>Convertir dólares a pesos mexicanos</h3>
+            <p>Consulta cuántos pesos recibe por un dólar estadounidense. Este tipo de cambio se usa para presupuestar viajes, pagar servicios en el extranjero o estimar el valor de una compra en México.</p>
+            <p class="pair-rate js-pair-rate">1 USD = — MXN</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir USD a MXN</button>
+          </article>
+
+          <article class="pair-card" id="eur-a-mxn" data-from="EUR" data-to="MXN">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇪🇺 → 🇲🇽</span><span class="mono-tag">EUR → MXN</span></div>
+            <h3>Convertir euros a pesos mexicanos</h3>
+            <p>El par EUR/MXN ayuda a estimar el valor en pesos de precios, reservas y compras hechas en la eurozona. Revisa la tasa de referencia antes de operar con tu banco o casa de cambio.</p>
+            <p class="pair-rate js-pair-rate">1 EUR = — MXN</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir EUR a MXN</button>
+          </article>
+
+          <article class="pair-card" id="usd-a-eur" data-from="USD" data-to="EUR">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇺🇸 → 🇪🇺</span><span class="mono-tag">USD → EUR</span></div>
+            <h3>Convertir dólares a euros</h3>
+            <p>Compara el valor del dólar frente al euro para viajes a Europa, compras internacionales o pagos entre empresas. El histórico del BCE permite ver la tendencia de los últimos meses.</p>
+            <p class="pair-rate js-pair-rate">1 USD = — EUR</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir USD a EUR</button>
+          </article>
+
+          <article class="pair-card" id="gbp-a-mxn" data-from="GBP" data-to="MXN">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇬🇧 → 🇲🇽</span><span class="mono-tag">GBP → MXN</span></div>
+            <h3>Convertir libras esterlinas a pesos</h3>
+            <p>La libra esterlina suele tener un valor alto frente al peso. Usa esta referencia para planear gastos en Reino Unido, comparar precios o estimar el costo de un envío desde ese país.</p>
+            <p class="pair-rate js-pair-rate">1 GBP = — MXN</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir GBP a MXN</button>
+          </article>
+
+          <article class="pair-card" id="mxn-a-jpy" data-from="MXN" data-to="JPY">
+            <div class="pair-card-top"><span class="pair-flags" aria-hidden="true">🇲🇽 → 🇯🇵</span><span class="mono-tag">MXN → JPY</span></div>
+            <h3>Convertir pesos mexicanos a yenes</h3>
+            <p>El yen japonés no usa decimales en su formato habitual. Este par es útil para presupuestar viajes a Japón, compras de importación o pagos a proveedores asiáticos.</p>
+            <p class="pair-rate js-pair-rate">1 MXN = — JPY</p>
+            <button class="link-btn js-pair-convert" type="button">Convertir MXN a JPY</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="afiliados" aria-labelledby="afiliados-title" hidden>
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Antes de viajar</p>
+          <h2 id="afiliados-title">Prepara tu viaje y tus compras.</h2>
+          <p class="sec-lede" id="affiliateDisclosure">Espacios reservados para enlaces de afiliados. Cuando se activen, se identificarán claramente como publicidad.</p>
+        </header>
+        <div class="affiliate-grid" id="affiliateGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <header class="sec-head">
+          <p class="kicker"><span class="rule-dot" aria-hidden="true"></span>Preguntas frecuentes</p>
+          <h2>Lo que conviene saber antes de convertir.</h2>
+        </header>
+        <div class="accordion app-accordion" id="faqAccordion">
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-1">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1" aria-expanded="true" aria-controls="faq-1">¿De dónde vienen los tipos de cambio?</button>
+            </h3>
+            <div id="faq-1" class="accordion-collapse collapse show" aria-labelledby="faq-heading-1" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Los tipos actuales provienen de ExchangeRate-API, con actualización diaria. El histórico usa Frankfurter, basado en datos de referencia del Banco Central Europeo. La fecha y la fuente se muestran en el conversor y en el gráfico.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-2">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-2" aria-expanded="false" aria-controls="faq-2">¿Son los mismos tipos que aplica mi banco?</button>
+            </h3>
+            <div id="faq-2" class="accordion-collapse collapse" aria-labelledby="faq-heading-2" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">No. Son tipos de referencia. Bancos, casas de cambio y tarjetas suelen aplicar un margen, una comisión o un cargo fijo, por lo que el monto final puede ser menor. La sección de costos permite estimar esas diferencias con tus propios supuestos.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-3">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-3" aria-expanded="false" aria-controls="faq-3">¿Con qué frecuencia se actualizan?</button>
+            </h3>
+            <div id="faq-3" class="accordion-collapse collapse" aria-labelledby="faq-heading-3" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">La fuente publica una actualización diaria. La aplicación refresca los datos cada 60 minutos, al recuperar la conexión y cuando usas el botón «Actualizar». La hora de la última actualización aparece junto al resultado.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-4">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-4" aria-expanded="false" aria-controls="faq-4">¿Puedo usarlo sin conexión?</button>
+            </h3>
+            <div id="faq-4" class="accordion-collapse collapse" aria-labelledby="faq-heading-4" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Sí. Si ya cargaste los tipos en tu navegador, se guardan y se reutilizan cuando no hay conexión. La interfaz avisa que se trata de datos guardados e indica su fecha. En una primera visita sin internet se usan datos de respaldo claramente identificados.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-5">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-5" aria-expanded="false" aria-controls="faq-5">¿Qué monedas puedo convertir?</button>
+            </h3>
+            <div id="faq-5" class="accordion-collapse collapse" aria-labelledby="faq-heading-5" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Incluimos 30 divisas, entre ellas MXN, USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, BRL, ARS, COP, CLP, PEN, KRW e INR. El histórico no está disponible para todas las monedas; cuando falta, se muestra un aviso.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-heading-6">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-6" aria-expanded="false" aria-controls="faq-6">¿Cómo se calculan las comisiones y el comparador?</button>
+            </h3>
+            <div id="faq-6" class="accordion-collapse collapse" aria-labelledby="faq-heading-6" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">La calculadora aplica un porcentaje y un cargo fijo configurables sobre el monto de origen. El comparador toma la tasa de referencia y permite simular el margen, la comisión y el cargo fijo de un proveedor. Los presets son ejemplos editables, no tarifas oficiales.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="logo-lockup">
+          <svg class="logo-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="3.5"/>
+            <path d="M21 27.5h18l-4.5-5M43 36.5H25l4.5 5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="32" cy="32" r="3" fill="currentColor"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name"><span class="lt">&lt;</span>Divisa<span class="rt">/&gt;</span></span>
+            <span class="logo-desc">Conversor de monedas</span>
+            <span class="logo-rule" aria-hidden="true"></span>
+          </div>
+        </div>
+        <p>Tipos de cambio de referencia, herramientas de comisión e histórico para viajar y comprar con más claridad.</p>
+      </div>
+      <nav class="footer-col" aria-label="Herramientas">
+        <h3>Herramientas</h3>
+        <a href="#conversor">Conversor</a>
+        <a href="#equivalencias">Equivalencias</a>
+        <a href="#costos">Comisiones</a>
+        <a href="#comparar">Comparador</a>
+        <a href="#viaje">Viaje y compras</a>
+      </nav>
+      <nav class="footer-col" aria-label="Contenido">
+        <h3>Contenido</h3>
+        <a href="#historico">Histórico</a>
+        <a href="#populares">Conversiones populares</a>
+        <a href="#faq">Preguntas frecuentes</a>
+        <a href="#historial">Historial de sesión</a>
+      </nav>
+      <div class="footer-col footer-contact">
+        <h3>Fuentes</h3>
+        <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">ExchangeRate-API</a>
+        <a href="https://frankfurter.dev" target="_blank" rel="noopener">Frankfurter · BCE</a>
+        <a href="https://www.ecb.europa.eu" target="_blank" rel="noopener">Banco Central Europeo</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <div class="container">
+        <p><strong>Aviso:</strong> los tipos de cambio son de referencia y pueden diferir de los aplicados por bancos, casas de cambio y tarjetas. Divisa no ofrece servicios financieros, no procesa pagos y no garantiza la exactitud de los datos. Verifica siempre con tu proveedor antes de operar.</p>
+        <p class="footer-source">Datos actuales: ExchangeRate-API · Histórico: Frankfurter (BCE). Los presets de proveedores son supuestos ilustrativos editables.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 Divisa · Conversor informativo</span>
+        <span>HTML, CSS y JavaScript · Bootstrap 5 · Sin backend</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast app-toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex align-items-center">
+        <div class="toast-body" id="toastBody">Listo.</div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar aviso"></button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="container no-script-note">Activa JavaScript para usar el conversor de monedas y consultar los tipos de cambio.</div>
+  </noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Divisa",
+        "url": ".",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "es-MX",
+        "description": "Conversor de monedas con 30 divisas, cálculo de comisiones, histórico del tipo de cambio y comparador de proveedores.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MXN" },
+        "featureList": [
+          "Conversión entre 30 divisas",
+          "Tipos de cambio de referencia actualizados",
+          "Funcionamiento sin conexión con los últimos datos",
+          "Calculadora de comisiones y comparador de proveedores",
+          "Histórico de 7, 30, 90 y 365 días",
+          "Presupuesto de viaje y precio de productos internacionales"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿De dónde vienen los tipos de cambio?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Los tipos actuales provienen de ExchangeRate-API, con actualización diaria. El histórico usa Frankfurter, basado en datos de referencia del Banco Central Europeo." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Son los mismos tipos que aplica mi banco?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Son tipos de referencia. Bancos, casas de cambio y tarjetas suelen aplicar un margen, una comisión o un cargo fijo, por lo que el monto final puede ser menor." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Con qué frecuencia se actualizan?",
+            "acceptedAnswer": { "@type": "Answer", "text": "La fuente publica una actualización diaria. La aplicación refresca los datos cada 60 minutos, al recuperar la conexión y manualmente." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Puedo usarlo sin conexión?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sí. Si ya cargaste los tipos en tu navegador, se guardan y se reutilizan cuando no hay conexión. La interfaz avisa que se trata de datos guardados e indica su fecha." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué monedas puedo convertir?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Incluimos 30 divisas, entre ellas MXN, USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, BRL, ARS, COP, CLP, PEN, KRW e INR. El histórico no está disponible para todas." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo se calculan las comisiones y el comparador?",
+            "acceptedAnswer": { "@type": "Answer", "text": "La calculadora aplica un porcentaje y un cargo fijo configurables sobre el monto de origen. El comparador permite simular el margen, la comisión y el cargo fijo de un proveedor; los presets son ejemplos editables." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <script src="vendor/bootstrap.bundle.min.js" defer></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/format.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="vendor/chart.umd.min.js" defer></script>
+  <script src="js/history-chart.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

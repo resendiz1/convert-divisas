@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#FFB000" stop-opacity=".22"/>
+      <stop offset="60%" stop-color="#FFB000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#FFB000" stroke-opacity=".08"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#0B0D0E"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <g font-family="Archivo, Arial, sans-serif">
+    <text x="88" y="150" fill="#FFB000" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="6">CONVERSOR DE MONEDAS</text>
+    <text x="88" y="282" fill="#F4F1E8" font-size="96" font-weight="700">Tu dinero, en</text>
+    <text x="88" y="382" fill="#FFB000" font-size="96" font-weight="700">todas las divisas.</text>
+    <text x="88" y="452" fill="#F4F1E8" opacity=".66" font-size="28">30 divisas · tipo de cambio actualizado · histórico y comisiones</text>
+  </g>
+  <g transform="translate(820 170)">
+    <rect width="300" height="290" rx="22" fill="#161819" stroke="#FFB000" stroke-opacity=".4"/>
+    <text x="28" y="52" fill="#FFB000" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="3">MXN → USD</text>
+    <text x="28" y="128" fill="#F4F1E8" font-family="'JetBrains Mono', monospace" font-size="54" font-weight="700">$ 5.36</text>
+    <text x="28" y="162" fill="#F4F1E8" opacity=".6" font-family="'JetBrains Mono', monospace" font-size="16">100 MXN = 5.36 USD</text>
+    <rect x="28" y="196" width="244" height="1" fill="#FFB000" opacity=".25"/>
+    <text x="28" y="238" fill="#F4F1E8" opacity=".72" font-size="17">1 MXN = 0.0536 USD</text>
+    <text x="28" y="268" fill="#FFB000" font-family="'JetBrains Mono', monospace" font-size="13">ACTUALIZADO HOY</text>
+  </g>
+</svg>
